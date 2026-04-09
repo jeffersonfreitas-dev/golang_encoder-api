@@ -10,8 +10,8 @@ import (
 type StatusJob string
 
 const (
-	StatusSuccess   StatusJob = "success"
-	StatusFailed    StatusJob = "failed"
+	StatusPending   StatusJob = "Pending"
+	StatusComplete  StatusJob = "Complete"
 	StatusConverted StatusJob = "Converted"
 )
 
@@ -23,7 +23,7 @@ type Job struct {
 	ID               string    `json:"job_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	OutputBucketPath string    `json:"output_bucket_path" valid:"notnull"`
 	Status           StatusJob `json:"status" valid:"notnull"`
-	Video            *Video    `json:"video" valid:"-"`
+	Video            *Video    `json:"video" valid:"-" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	VideoID          string    `valid:"-" gorm:"column:video_id;type:uuid;notnull"`
 	Error            string    `valid:"-"`
 	CreatedAt        time.Time `json:"created_at" valid:"-"`
